@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
   align-items: center;
   width: 420px;
   padding: 50px 0px;
+  line-height: 2;
 `;
 
 export const Title = styled.h1`
@@ -15,6 +16,7 @@ export const Title = styled.h1`
 
 export const Form = styled.form`
   margin-top: 50px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -22,6 +24,7 @@ export const Form = styled.form`
 `;
 
 export const Input = styled.input`
+  margin-top: 20px;
   padding: 10px 20px;
   border-radius: 50px;
   border: none;
@@ -42,6 +45,7 @@ export const Error = styled.span`
 
 export const Switcher = styled.span`
   margin-top: 20px;
+  white-space: pre-line;
   a {
     color: #1d9bf0;
   }

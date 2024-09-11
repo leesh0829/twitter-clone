@@ -34,8 +34,10 @@ export default function CreateAccount() {
     setError("");
     if (isLoading || email === "" || password === "") return;
     try {
-      navigate("/");
       await signInWithEmailAndPassword(auth, email, password);
+      if (!auth.currentUser?.emailVerified)
+        throw setError("Email got Notverified, Check your email.");
+      else if (auth.currentUser?.emailVerified) navigate("/");
     } catch (e) {
       if (e instanceof FirebaseError) {
         setError(e.message);
@@ -75,6 +77,9 @@ export default function CreateAccount() {
         <Switcher>
           Dont have an account?{" "}
           <Link to="/create-account">Create one&rarr;</Link>
+          <br />
+          Did you forgot your password?{" "}
+          <Link to="/reset-password">Reset your Password&rarr;</Link>
         </Switcher>
         <GithubButton />
       </Wrapper>

@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase";
 import { Form, Link, useNavigate } from "react-router-dom";
@@ -42,10 +46,11 @@ export default function CreateAccount() {
         email,
         password
       );
+      await sendEmailVerification(credentials.user);
       await updateProfile(credentials.user, {
         displayName: name,
       });
-      navigate("/");
+      navigate("/login");
     } catch (e) {
       if (e instanceof FirebaseError) {
         setError(e.message);
@@ -93,6 +98,7 @@ export default function CreateAccount() {
         <Switcher>
           Already have an account? <Link to="/login">Login&rarr;</Link>
         </Switcher>
+        <Switcher>Did you dont know ur password? Reset your password.</Switcher>
         <GithubButton />
       </Wrapper>
     </div>
