@@ -85,7 +85,14 @@ export default function PostTweetForm() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const user = auth.currentUser;
-    if (!user || isLoading || tweet === "" || tweet.length > 180) return;
+    if (
+      !user ||
+      isLoading ||
+      tweet === "" ||
+      tweet.length > 180 ||
+      (file?.size && file?.size > 1 * 1024 * 1024)
+    )
+      return;
     try {
       setLoading(true);
       const doc = await addDoc(collection(db, "tweets"), {
@@ -95,10 +102,7 @@ export default function PostTweetForm() {
         userId: user.uid,
       });
       if (file) {
-        const locationRef = ref(
-          storage,
-          `tweets/${user.uid}-${user.displayName}/${doc.id}`
-        );
+        const locationRef = ref(storage, `tweets/${user.uid}/${doc.id}`);
         const result = await uploadBytes(locationRef, file);
         const url = await getDownloadURL(result.ref);
         updateDoc(doc, {
